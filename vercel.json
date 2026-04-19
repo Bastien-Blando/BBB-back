@@ -2,11 +2,19 @@
   "version": 2,
   "builds": [
     {
+      "src": "public/covers/**",
+      "use": "@vercel/static"
+    },
+    {
       "src": "index.js",
       "use": "@vercel/node"
     }
   ],
   "routes": [
+    {
+      "src": "/covers/(.*)",
+      "dest": "/public/covers/$1"
+    },
     {
       "src": "/(.*)",
       "dest": "index.js"
