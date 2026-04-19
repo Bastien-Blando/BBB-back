@@ -21,12 +21,18 @@ const upload = multer({ storage: multer.memoryStorage(), fileFilter });
 export function uploadToCloudinary(req, _res, next) {
   if (!req.file) return next();
 
+  const { cloud_name, api_key } = cloudinary.config();
+  if (!cloud_name || !api_key) {
+    console.error('Cloudinary non configuré — variables manquantes:', { cloud_name: !!cloud_name, api_key: !!api_key });
+    return next(new Error('Cloudinary non configuré sur le serveur'));
+  }
+
   const stream = cloudinary.uploader.upload_stream(
     { folder: 'blablabook/avatars', transformation: [{ width: 300, height: 300, crop: 'fill' }] },
     (error, result) => {
       if (error) {
-        console.error('Cloudinary error:', error);
-        return next(error);
+        console.error('Cloudinary upload error:', JSON.stringify(error));
+        return next(new Error(`Cloudinary: ${error.message || JSON.stringify(error)}`));
       }
       req.file.path = result.secure_url;
       next();
