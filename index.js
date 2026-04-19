@@ -21,6 +21,10 @@ app.use('/uploads', express.static('uploads'));
 app.use(apiRouter);
 
 
-app.listen(PORT, () => {
-  console.log(`BlaBlaBook 📘📗📕 is "reading" 👍 on http://localhost:${PORT}`);
-});
+if (process.env.NODE_ENV !== 'production') {
+  app.listen(PORT, () => {
+    console.log(`BlaBlaBook 📘📗📕 is "reading" 👍 on http://localhost:${PORT}`);
+  });
+}
+
+export default app;
