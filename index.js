@@ -8,9 +8,11 @@ import { mkdirSync } from "fs";
 const PORT = process.env.PORT || 3000;
 const app = express();
 
-// Crée les dossiers uploads si absents (évite un crash au démarrage)
-mkdirSync("uploads/avatars", { recursive: true });
-mkdirSync("uploads/books/images", { recursive: true });
+// Crée les dossiers uploads uniquement en local (Vercel a un filesystem en lecture seule)
+if (process.env.NODE_ENV !== 'production') {
+  mkdirSync("uploads/avatars", { recursive: true });
+  mkdirSync("uploads/books/images", { recursive: true });
+}
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
