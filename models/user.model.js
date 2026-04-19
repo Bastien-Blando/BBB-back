@@ -33,7 +33,7 @@ User.init(
          allowNull: false,
       },
       avatar: {
-         type: DataTypes.STRING(100),
+         type: DataTypes.TEXT,
          allowNull: true
       },
 
