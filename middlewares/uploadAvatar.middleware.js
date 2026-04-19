@@ -24,7 +24,10 @@ export function uploadToCloudinary(req, _res, next) {
   const stream = cloudinary.uploader.upload_stream(
     { folder: 'blablabook/avatars', transformation: [{ width: 300, height: 300, crop: 'fill' }] },
     (error, result) => {
-      if (error) return next(error);
+      if (error) {
+        console.error('Cloudinary error:', error);
+        return next(error);
+      }
       req.file.path = result.secure_url;
       next();
     }
