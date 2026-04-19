@@ -1,5 +1,5 @@
 import "dotenv/config";
-import "pg";
+import pg from "pg";
 import { Sequelize } from "sequelize";
 
 if (!process.env.DB_URL) {
@@ -9,6 +9,8 @@ if (!process.env.DB_URL) {
 export const sequelize = new Sequelize(
    process.env.DB_URL,
    {
+      dialect: "postgres",
+      dialectModule: pg,
       logging: false,
       define: {
          createdAt: "created_at",
