@@ -1,14 +1,18 @@
 import "dotenv/config";
 import { Sequelize } from "sequelize";
 
+if (!process.env.DB_URL) {
+  throw new Error("DB_URL est manquante dans les variables d'environnement");
+}
+
 export const sequelize = new Sequelize(
    process.env.DB_URL,
    {
-      logging: false, // désactiver les logs de sequelize
+      logging: false,
       define: {
-         createdAt: "created_at", // mapping des nom de champs, pour la récuperation
+         createdAt: "created_at",
          updatedAt: "updated_at",
-         underscored: true, // synchroniser les champs en snake_case
+         underscored: true,
       }
    }
 );
