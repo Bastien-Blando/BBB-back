@@ -33,6 +33,7 @@ app.use(cors({
 
 app.use(xss());
 app.use('/uploads', express.static('uploads'));
+app.use('/covers', express.static('public/covers'));
 
 // Route de santé pour vérifier que l'API tourne
 app.get('/health', (_req, res) => {
