@@ -18,12 +18,15 @@
   },
   "author": "",
   "license": "ISC",
+  "engines": {
+    "node": ">=22.0.0"
+  },
   "bugs": {
     "url": "https://github.com/O-clock-Cambridge/projet-blablabook-back/issues"
   },
   "homepage": "https://github.com/O-clock-Cambridge/projet-blablabook-back#readme",
   "dependencies": {
-    "argon2": "^0.44.0",
+    "bcryptjs": "^3.0.3",
     "cors": "^2.8.5",
     "dotenv": "^17.2.2",
     "express": "^5.1.0",

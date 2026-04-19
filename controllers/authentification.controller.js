@@ -1,4 +1,4 @@
-import argon2 from "argon2";
+import bcrypt from "bcryptjs";
 import Joi from "joi";
 import jwt from "jsonwebtoken";
 import { User } from "../models/user.model.js";
@@ -18,7 +18,7 @@ export const userAuthentificationController = {
         return res.status(409).json({ error: "Utilisateur déjà existant" });
       }
 
-      const hashedPassword = await argon2.hash(password);
+      const hashedPassword = await bcrypt.hash(password, 10);
 
       const newUser = await User.create({
         name,
@@ -70,7 +70,7 @@ export const userAuthentificationController = {
         return res.status(404).json({ error: "Utilisateur n'existe pas" });
       }
 
-      const isPasswordValid = await argon2.verify(user.password, password);
+      const isPasswordValid = await bcrypt.compare(password, user.password);
 
       if (!isPasswordValid) {
         return res.status(403).json({ error: "Password is incorrect" });
