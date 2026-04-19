@@ -17,8 +17,17 @@ if (process.env.NODE_ENV !== 'production') {
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
+const allowedOrigins = process.env.FRONTEND_URL
+  ? process.env.FRONTEND_URL.split(",").map(o => o.trim().replace(/\/$/, ""))
+  : ["*"];
+
 app.use(cors({
-  origin: process.env.FRONTEND_URL || "*",
+  origin: (origin, callback) => {
+    if (!origin || allowedOrigins.includes("*")) return callback(null, true);
+    const allowed = allowedOrigins.some(o => origin.startsWith(o.replace(/\/$/, "")));
+    if (allowed) return callback(null, true);
+    callback(new Error(`CORS bloqué pour l'origine : ${origin}`));
+  },
   credentials: true,
 }));
 
